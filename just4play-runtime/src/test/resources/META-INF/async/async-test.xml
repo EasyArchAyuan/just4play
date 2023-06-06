@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+    <!-- async init  test -->
+    <bean id="testBean1" class="com.example.ayuan.TimeWasteBean" init-method="init"/>
+    <bean id="testBean2" class="com.example.ayuan.TimeWasteBean" init-method="init"/>
+    <bean id="testBean3" class="com.example.ayuan.TimeWasteBean" init-method="init"/>
+    <bean id="testBean4" class="com.example.ayuan.TimeWasteBean" init-method="init"/>
+    <bean id="testBean5" class="com.example.ayuan.TimeWasteBean" init-method="init"/>
+    <bean id="testBean6" class="com.example.ayuan.TimeWasteBean" init-method="init"/>
+    <bean id="testBean7" class="com.example.ayuan.TimeWasteBean" init-method="init"/>
+    <bean id="testBean8" class="com.example.ayuan.TimeWasteBean" init-method="init"/>
+    <bean id="testBean9" class="com.example.ayuan.TimeWasteBean" init-method="init"/>
+    <bean id="testBean10" class="com.example.ayuan.TimeWasteBean" init-method="init"/>
+    <bean id="testBean11" class="com.example.ayuan.AsyncInitTest.TimeWasteBeanChild" init-method="init"/>
+    <bean id="testBean14" class="com.example.ayuan.TimeWasteBean" init-method="init"/>
+    <bean id="testBean15" class="com.example.ayuan.TimeWasteBean" init-method="init"/>
+    <bean id="testBean16" class="com.example.ayuan.TimeWasteBean"/>
+</beans>
