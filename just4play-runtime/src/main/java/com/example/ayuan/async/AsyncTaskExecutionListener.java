@@ -1,5 +1,6 @@
 package com.example.ayuan.async;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -9,6 +10,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
 
 
+@Slf4j
 public class AsyncTaskExecutionListener implements PriorityOrdered,
                                        ApplicationListener<ContextRefreshedEvent>,
                                        ApplicationContextAware {
@@ -28,6 +30,7 @@ public class AsyncTaskExecutionListener implements PriorityOrdered,
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+
         this.applicationContext = applicationContext;
     }
 }

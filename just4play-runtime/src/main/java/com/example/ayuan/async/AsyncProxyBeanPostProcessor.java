@@ -1,9 +1,9 @@
 package com.example.ayuan.async;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -15,14 +15,23 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.core.PriorityOrdered;
 
 import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
-
+/**
+ * 拓展核心：扩展BeanPostProcessor
+ */
 @Slf4j
 public class AsyncProxyBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware,
         InitializingBean, PriorityOrdered {
 
     private ApplicationContext applicationContext;
+
+    /**
+     * 统计Bean加载计时用的
+     */
+    private Map<String, Long> mapBeantime = new ConcurrentHashMap<>();
 
     private String moduleName;
 
@@ -32,6 +41,9 @@ public class AsyncProxyBeanPostProcessor implements BeanPostProcessor, Applicati
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName)
             throws BeansException {
+        //统计时间
+        mapBeantime.put(beanName, System.currentTimeMillis());
+        //正常流程
         String methodName = AsyncInitBeanHolder.getAsyncInitMethodName(moduleName, beanName);
         if (methodName == null || methodName.length() == 0) {
             return bean;
@@ -47,8 +59,12 @@ public class AsyncProxyBeanPostProcessor implements BeanPostProcessor, Applicati
     }
 
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName)
+    public Object postProcessAfterInitialization(@NotNull Object bean, @NotNull String beanName)
             throws BeansException {
+        Long begin = mapBeantime.get(beanName);
+        if (begin != null) {
+            mapBeantime.put(beanName, System.currentTimeMillis() - begin);
+        }
         return bean;
     }
 

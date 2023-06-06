@@ -30,7 +30,6 @@ import java.util.Objects;
 @Component
 public class LicenseManager {
     private static final String AUTHORIZE = "Authorize";
-    public static String AES_KEY = "pjbbAvaE8faDOjYvqMPIMQ==";
 
     /**
      * 验证
@@ -63,10 +62,9 @@ public class LicenseManager {
             return map;
         }
         long currentTime = System.currentTimeMillis();
-        //校验时间
-        if ((validateParams.getLastValidateTime() >= currentTime) ||
-                (validateParams.getGeneratedTime() <= currentTime) ||
-                (validateParams.getExpiredTime() >= currentTime)) {
+        //校验时间 (validateParams.getLastValidateTime() < currentTime) ||
+        if ((validateParams.getGeneratedTime() > currentTime) ||
+                (validateParams.getExpiredTime() < currentTime)) {
             map.put("Authorize", ValidateResult.failed(ValidateCodeEnum.EXPIRED));
             return map;
         }
@@ -84,7 +82,7 @@ public class LicenseManager {
     public static String getLicense() throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         String macAddress = SystemUtils.getMacAddress();
         String cpuSerialNumber = SystemUtils.getCpuSerialNumber();
-        return AESUtils.encrypt(macAddress + "-" + cpuSerialNumber, AES_KEY);
+        return AESUtils.encrypt(macAddress + "-" + cpuSerialNumber);
     }
 
     /**
@@ -144,11 +142,11 @@ public class LicenseManager {
         Element lastValidateTimeEle = featuresEles.get(0);
         //提取上一次验证时间
         String lastValidateTimeStr = lastValidateTimeEle.attributeValue("ti");
-        long lastValidateTime = Long.parseLong(AESUtils.decrypt(lastValidateTimeStr, AES_KEY));
+        long lastValidateTime = Long.parseLong(AESUtils.decrypt(lastValidateTimeStr));
         //提取签名内容
         Element signEle = rootElement.element("signature");
         String signStr = signEle.getText();
-        String sign = AESUtils.decrypt(signStr, AES_KEY);
+        String sign = AESUtils.decrypt(signStr);
         String[] signArr = sign.split("-");
         if (signArr.length != 5) {
             map.put("Authorize", ValidateResult.failed(ValidateCodeEnum.ILLEGAL));

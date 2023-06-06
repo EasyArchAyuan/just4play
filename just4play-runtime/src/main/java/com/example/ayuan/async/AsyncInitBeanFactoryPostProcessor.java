@@ -1,6 +1,5 @@
 package com.example.ayuan.async;
 
-
 import com.example.ayuan.annotation.BeanAsyncInit;
 import com.example.ayuan.annotation.PlaceHolderAnnotationInvocationHandler;
 import com.example.ayuan.annotation.PlaceHolderBinder;

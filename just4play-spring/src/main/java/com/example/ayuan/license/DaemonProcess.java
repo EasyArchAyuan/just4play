@@ -19,7 +19,7 @@ public class DaemonProcess implements Runnable {
     public static Map<String, ValidateResult> map = new HashMap<>();
 
 
-    private static final Long checkTime = 1000L;
+    private static final Long checkTime = 30L;
 
 
     @Bean

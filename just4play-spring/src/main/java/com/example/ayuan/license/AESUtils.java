@@ -24,10 +24,10 @@ public class AESUtils {
         //加密调用例子
         String str = "11111111";
         //原始数据
-        String resultStr = AESUtils.encrypt(str, AES_KEY);
+        String resultStr = AESUtils.encrypt(str);
         System.out.println("AES128加密后:"+resultStr);
         //解密调用例子
-        String originalStr = AESUtils.decrypt(resultStr, AES_KEY);
+        String originalStr = AESUtils.decrypt(resultStr);
         System.out.println("AES128解密后--原始数据:"+originalStr);
     }
 
@@ -44,11 +44,11 @@ public class AESUtils {
     /**
      * 加密
      */
-    public static String encrypt(String data, String keyEncoded)
+    public static String encrypt(String data)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException,
             BadPaddingException {
         Cipher cipher = Cipher.getInstance("AES");
-        SecretKey key = new SecretKeySpec(base64Decode(keyEncoded), "AES");
+        SecretKey key = new SecretKeySpec(base64Decode(AES_KEY), "AES");
         cipher.init(Cipher.ENCRYPT_MODE, key);
         byte[] result = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
         return base64Encode(result);
@@ -57,11 +57,11 @@ public class AESUtils {
     /**
      * 解密
      */
-    public static String decrypt(String data, String keyEncoded)
+    public static String decrypt(String data)
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException,
             BadPaddingException {
         Cipher cipher = Cipher.getInstance("AES");
-        SecretKey key = new SecretKeySpec(base64Decode(keyEncoded), "AES");
+        SecretKey key = new SecretKeySpec(base64Decode(AES_KEY), "AES");
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] result = cipher.doFinal(base64Decode(data));
         return new String(result, StandardCharsets.UTF_8);

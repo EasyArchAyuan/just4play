@@ -1,11 +1,11 @@
 package com.example.ayuan.license;
 
+import lombok.SneakyThrows;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Ayuan
@@ -54,7 +54,7 @@ public class SystemUtils {
         } else if (os.startsWith("mac")) {
             //Mac OS X 操作系统下获取 CPU 序列号
             try {
-                Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", "system_profiler SPHardwareDataType |grep \"r (system)"});
+                Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", "system_profiler SPHardwareDataType |grep 'r (system)' | awk '{print $NF}'"});
                 process.getOutputStream().close();
                 BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
                 String line = br.readLine();
@@ -70,31 +70,29 @@ public class SystemUtils {
     }
 
 
+    @SneakyThrows
     protected static String getMacAddress() {
-        try {
-            Enumeration<NetworkInterface> env = NetworkInterface.getNetworkInterfaces();
-            while (env.hasMoreElements()) {
-                NetworkInterface face = env.nextElement();
-                if (!face.isUp() || face.isLoopback() || face.isVirtual()) {
-                    continue;
+        Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+        while (networkInterfaces.hasMoreElements()) {
+            NetworkInterface networkInterface = networkInterfaces.nextElement();
+            byte[] mac = networkInterface.getHardwareAddress();
+            if (mac != null) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < mac.length; i++) {
+                    sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? ":" : ""));
                 }
-                byte[] mac = face.getHardwareAddress();
-                if (mac == null) {
-                    continue;
-                }
-                return Stream.of(mac)
-                        .map(b -> String.format("%02X", b))
-                        .collect(Collectors.joining("-"))
-                        .toUpperCase();
+                return sb.toString();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }
 
     public static void main(String[] args) {
-        String macAddress = getMacAddress();
-        System.out.println(macAddress);
+//        String macAddress = getMacAddress();
+//        System.out.println(macAddress);
+
+        String cpuSerialNumber = getCpuSerialNumber();
+        System.out.println(cpuSerialNumber);
+
     }
 }
