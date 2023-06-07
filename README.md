@@ -19,19 +19,24 @@ Just4Play是一个让你轻松玩转技术的开源项目。我们的项目包�
 - 丰富的项目示例：我们的项目包含了日常工作中的小Demo和一些奇怪有趣的项目，让您可以快速学习和尝试不同的开发技术。
 - 开源并且免费：基于Spring Boot和Maven构建,我们的开源项目免费供所有用户使用，并且欢迎您贡献更多代码和技术支持.🆓💖👨‍💻
 
-### 1.异步Bean初始化方案
-- 参考阿里的SOFA-BOOT(https://www.sofastack.tech/projects/sofa-boot/bean-async-init/)
-- 在SOFA-BOOT基础上自动扫描可批量异步的中间件Bean
-
-### 2.License证书鉴权
+### 1.License证书鉴权（just4play-spring）
 - 根据授权时间、mac地址、cpu序列号、项目编号等唯一标识，生成License文件。
 - 支持守护线程不断轮询调用证书验证
 - 支持AOP增强所有controller接口，调用接口之前先验证license
 - 使用方式：
-  - 1.just4play项目下test文件夹找到CreateSign，运行得到License.xml文件。
+  - 1.just4play-spring项目下test文件夹找到CreateSign，运行得到License.xml文件。
   - 2.把License.xml文件放在父pom中，运行项目即可。
 
 当然你也可以单独提取出来作为server端和client端，扔到maven私服。
+
+### 3.多层时间轮算法（just4play-runtime）
+- 借鉴了Kafka的多层时间轮算法设计
+- 封装好了工具类直接使用（timingwheel文件夹）
+
+### 3.异步Bean初始化方案（just4play-runtime）
+- 参考阿里的SOFA-BOOT(https://www.sofastack.tech/projects/sofa-boot/bean-async-init/)
+- 在SOFA-BOOT基础上自动扫描可批量异步的中间件Bean
+- 使用注解@BeanAsyncInit可手动标识需要异步初始化的Bean
 
 ## 常见问题
 
