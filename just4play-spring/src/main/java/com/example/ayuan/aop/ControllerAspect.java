@@ -52,7 +52,7 @@ public class ControllerAspect {
      */
     private void checkLicense() {
         Pair<Boolean, String> booleanStringPair = DaemonProcess.validateAfterUpdateSign();
-        if (booleanStringPair.getKey()) {
+        if (!booleanStringPair.getKey()) {
             throw new ThreeException(booleanStringPair.getValue());
         }
     }

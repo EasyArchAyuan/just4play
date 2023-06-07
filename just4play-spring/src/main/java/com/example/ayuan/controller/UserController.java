@@ -17,8 +17,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <p>
@@ -38,11 +36,10 @@ public class UserController {
 
 
     @GetMapping("/getServerID")
-    public Map<String, Object> getServerID() throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-        Map<String, Object> retMap = new HashMap<>(2);
-        retMap.put("code", "200");
-        retMap.put("serverID", LicenseManager.getLicense());
-        return retMap;
+    public CommonResult<String> getServerID() throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        String license = LicenseManager.getLicense();
+        return CommonResult.success(license);
+
     }
 
 
