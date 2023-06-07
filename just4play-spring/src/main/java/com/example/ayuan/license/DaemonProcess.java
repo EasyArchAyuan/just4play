@@ -37,6 +37,7 @@ public class DaemonProcess implements Runnable {
             map = LicenseManager.validate();
             if (map != null) {
                 ValidateResult result = map.get("Authorize");
+                //todo:验证通过修改全局变量boolean值. 如果false了直接拦截返回对应map的错误信息
                 System.out.println("license校验结果：" + result.getMessage());
             }
             try {

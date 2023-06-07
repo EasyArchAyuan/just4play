@@ -14,7 +14,7 @@ public enum ValidateCodeEnum {
     EXPIRED(1101, "授权已过期"),
     ILLEGAL(1102, "授权码不正确"),
     EXCEPTION(1103, "解析签名异常"),
-    FILE_NOT_EXIST(1104, "license文件不存在"),
+    FILE_NOT_EXIST(1104, "License文件不存在"),
     UNAUTHORIZED(1105, "产品未授权");
 
     private Integer code;
