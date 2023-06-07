@@ -1,11 +1,14 @@
 package com.example.ayuan.license;
 
+import com.example.ayuan.license.pojo.ValidateCodeEnum;
 import com.example.ayuan.license.pojo.ValidateResult;
+import javafx.util.Pair;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,9 +52,14 @@ public class DaemonProcess implements Runnable {
         }
     }
 
-    public static boolean validateAfterUpdateSign() {
+    public static Pair<Boolean, String> validateAfterUpdateSign() {
         map = LicenseManager.validate();
         ValidateResult result = map.get("Authorize");
-        return result != null && result.getSuccess();
+        if (Objects.isNull(result)) {
+            result = new ValidateResult();
+            result.setCode(ValidateCodeEnum.UNAUTHORIZED.getCode());
+            result.setMessage("License验证失败");
+        }
+        return new Pair<>(result.getSuccess(), result.getMessage());
     }
 }
