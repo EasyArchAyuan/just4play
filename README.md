@@ -17,13 +17,20 @@ Just4Play是一个让你轻松玩转技术的开源项目。我们的项目包�
 我们的开源项目拥有以下特色功能：
 
 - 丰富的项目示例：我们的项目包含了日常工作中的小Demo和一些奇怪有趣的项目，让您可以快速学习和尝试不同的开发技术。
-- 基于Spring Boot和Maven构建：我们利用业界顶尖的技术，为开发者提供了高效稳定的产品开发和部署环境。
-- 开源并且免费：我们的开源项目免费供所有用户使用，并且欢迎您贡献更多代码和技术支持.🆓💖👨‍💻
+- 开源并且免费：基于Spring Boot和Maven构建,我们的开源项目免费供所有用户使用，并且欢迎您贡献更多代码和技术支持.🆓💖👨‍💻
 
-## 异步Bean初始化方案
-- 参考阿里的SOFA(https://www.sofastack.tech/projects/sofa-boot/bean-async-init/)
-- 在sofa基础上自动扫描可批量异步的中间件bean
+### 1.异步Bean初始化方案
+- 参考阿里的SOFA-BOOT(https://www.sofastack.tech/projects/sofa-boot/bean-async-init/)
+- 在SOFA-BOOT基础上自动扫描可批量异步的中间件Bean
 
+### 2.License证书鉴权
+- 根据授权时间、mac地址、cpu序列号、项目编号等唯一标识，生成License文件。
+- 守护线程不断轮询验证，发现License文件过期或者授权失败，直接全局请求拦截。
+- 使用方式：
+  - 1.just4play项目下test文件夹找到CreateSign，运行得到License.xml文件。
+  - 2.把License.xml文件放在父pom中，运行项目即可。
+
+当然你也可以单独提取出来作为server端和client端，扔到maven私服。
 
 ## 常见问题
 
